@@ -79,13 +79,6 @@ jobs:
     - name: 安装脚本文件
       run: cd openwrt && ./scripts/feeds install -a
       
-    - name: 电报机器人信息通知
-      run: |
-        if [[ "${SERVERCHAN_SCKEY}" == "true" ]]; then
-          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人：
-          您正在使用【${{matrix.target}}】文件夹编译固件中(${CangKu}仓库的#${Run_number}号),请耐心等待...... 😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
-        fi
-
     - name: 加载脚本
       run: |
         [ -e files ] && mv files openwrt/files
@@ -199,20 +192,12 @@ jobs:
         retain_days: 1
         keep_minimum_runs: 3
         
-    - name: 电报机器人信息通知
-      run: |
-        if [[ "${BOT}" == "TRUE" ]]; then
-          if [[ "${SERVERCHAN_SCKEY}" == "true" ]]; then
-            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：
-            您使用【${{matrix.target}}】文件夹编译的[${{ env.NAME2 }}-${{ env.NAME1 }}]固件(${CangKu}仓库的#${Run_number}号)顺利编译完成了！💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
-          fi
-        fi
 
     - name: 删除旧的发布
       uses: dev-drprasad/delete-older-releases@v0.1.0
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
-        keep_latest: 3
+        keep_latest: 1
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
