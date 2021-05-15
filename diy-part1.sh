@@ -23,4 +23,4 @@
 #rm -rf ./package/lean/luci-app-netdata
 # Add a feed source
 #sed -i '$a src-git lienol https://github.com/281677160/openwrt-package' feeds.conf.default
-sed -i '$a src-git lienol https://github.com/garypang13/openwrt-packages' feeds.conf.default
+sed -i '$a src-git ddd https://github.com/garypang13/openwrt-packages' feeds.conf.default
